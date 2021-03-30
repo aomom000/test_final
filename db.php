@@ -1,27 +1,48 @@
 <?php
-    class db{
-        private $mysqli;
-        function connect(){
-            $this->mysqli = new mysqli("localhost","root","","shopshock");
-            if ($this->mysqli->connect_error){
-                echo "Failed to connect to MySQL: " .$mysqli->connect_error;
-                exit();
-            }else{
-                echo "Connect success...";
+class database
+{
+    public $dbConn = null;
+
+    public function connect()
+    {
+        $this->dbConn = new mysqli("localhost", "root", "", "shopshock");
+        $this->dbConn->query("SET NAMES UTF8");
+    }
+
+    public function insertdata($data)
+    {
+
+        $sql = "INSERT INTO `member`SELECT MAX(member_id)+1,'{$data['name']}','{$data['nickname']}','{$data['pass']}','01' FROM member";
+        $rs = $this->dbConn->query($sql);
+    }
+
+    public function verify_user($user, $pass)
+    {
+        $sql = "SELECT count(member_id) as n, name, user, type FROM member
+            WHERE user='{$user}' and password='{$pass}'";
+        $rs = $this->dbConn->query($sql);
+        $row = $rs->fetch_assoc();
+        return $row;
+    }
+
+    public function showproduct()
+    {
+        $sql = "SELECT Product_id, Product_code, Product_Name , Brand_name, Unit_name,Cost FROM product, brand, unit WHERE product.Brand_ID = brand.Brand_id AND product.Unit_ID = unit.Unit_id";
+        $rs = $this->dbConn->query($sql);
+        while ($row = $rs->fetch_assoc()) {
+            echo "<tr>";
+            foreach ($row as $key => $value) {
+                echo "<td>{$value}</td>";
             }
-        }
-        function query($sql){
-            $result = $this->mysqli->query($sql);
-            //$this->debug_text($sql);
-            $data = $result->fetch_all(MYSQLI_ASSOC);
-            return $data;
-        }
-        function closedb(){
-            print("db close");
-            $this->mysqli->close();
+            echo "<td><a href='Add_Product.php?sltpro={$row['Product_id']}'>< ShopShock ></a></td>";
+            echo "</tr>";
         }
     }
-    //$mydb = new db();
-    //$mydb -> connect();
-    //print_r($mydb->query("select * from product"));
-?>
+
+    public function showdetailproduct($id)
+    {
+        $sql = "SELECT * FROM product, brand, unit WHERE product.Brand_ID = brand.Brand_id AND product.Unit_ID = unit.Unit_id AND product.Product_id = $id";
+        $rs = $this->dbConn->query($sql);
+        return $rs->fetch_assoc();
+    }
+}

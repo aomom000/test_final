@@ -1,59 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shopshock</title>
+    <title>Product List</title>
 </head>
+
 <body>
-    
-    <form action="verified.php" method="post" align="center">
-    <h1>ยินดีต้อนรับเข้าสู่เมนูลูกค้า</h1>
-    <h1>SHOPSHOCK</h1>
-    <h2>Select Product to Cart</h2>
-            <script>
-            function product_list(){
-                let xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function(){
-                    //console.log(this.readyState + " ,"+ )
-                    if(this.readyState==4 && this.Status == 200){
-                        arr = JSON.parse(this.responseText);
-                        plist = document.getElementById("p_list");
-                        text = "";
-                        for(i=0;i<arr.length;i++)
-                        data = JSON.parse(this.resposeText);
-                    }
-                }
-                xhttp.open("GET", "product_rest.php", true);
-                xhttp.send();
-            }
-
-            function product_add(){
-                alert(arr[i]);
-                plist = document.getElementById('p_list');
-                text = "";
-                text += "<table border='1'>";
-                text += "<tr><td>ID</td><td><input type='text' value=""+arr[i][0]";
-                text += "";
-                text += "";
-                text += "";
-                text += "";
-                text += "</table>";
-                plist.innerHTML = text;
-
-            }
-            function add_to_cart(){
-                let xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function(){
-                    if(this.readyState==4 && this.status==200)
-                    
-                }
-
-                xhttp.open("POST","product_rest.php",true);
-                xhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-                xhttp.send("a=1&b=2");
-            }
-            </script>
+    <form action="hendle.php" method="post">
+        <table align="right">
+            <tr>
+                <td>ยินดีต้อนรับ</td>
+            </tr>
+            <tr>
+                <td>คุณ <?php
+                        session_start();
+                        if ($_SESSION['name'] == "") {
+                            header("location: login.php");
+                        } else {
+                            echo "{$_SESSION['name']}";
+                        }
+                        ?></td>
+            </tr>
+        </table>
+        <center>
+            <h1>ยินดีต้อนรับเข้าสู่เมนูลูกค้า</h1>
+            <br>|<a href="Productlist.php">สั่งซื้อสินค้า</a>|<a href="PO.php">ชำระเงิน</a>|<a href="logout.php">ออกจากระบบ</a>|<br>
+            <h2>SHOPSHOCK</h2>
+            <h3>Select Product to Cart</h3>
+            <table border="1">
+                <th>ID</th>
+                <th>Product_code</th>
+                <th>Product_Name</th>
+                <th>Brand</th>
+                <th>Unit</th>
+                <th>Cost</th>
+                <th>SHOPS</th>
+                <?php
+                include_once "db.php";
+                $myconn = new database();
+                $myconn->connect();
+                $myconn->showproduct();
+                ?>
+            </table>
+        </center>
+    </form>
 </body>
+
 </html>

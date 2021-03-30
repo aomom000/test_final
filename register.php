@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
 </head>
-<body>
 
-    <fieldset><legend><b>ShopShock Member Register</b></legend>
+<body style="margin: 0 auto; width:450px">
     <center>
-        ______________________________________________________<br><br>
-
-
-        <form action="db.php" method="post">
-        <table>
-        <tr>
-            <td>Name:</td><td><input type="text" name="user" id="" require></td>
-        </tr>
-        <tr>
-            <td>NickName:</td><td><input type="text" name="name" id="" require></td>
-        </tr>
-        <tr>
-            <td>Password:</td><td><input type="text" name="pass" id="" require></td>
-        </tr>
-        <tr>
-            <td>ConfirmPassword:</td><td><input type="conpass" name="pass" id="" require></td>
-        </tr>
-        <tr></tr>
-        </table>  
+        <br><br>
+        <h1>ShopShock Member Register</h1>
+        <form action="handle.php" method="post">
+            <div style="border: red 1px solid;padding:20px">
+                <table>
+                    <th>
+                    <td colspan="2" align="right"><a href="login.php">login</a></td>
+                    </th>
+                    <tr>
+                        <td colspan="2">
+                            <hr>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Name :</td>
+                        <td><input type="text" name="insert_name" id="" required></td>
+                    </tr>
+                    <tr>
+                        <td>NickName :</td>
+                        <td><input type="text" name="insert_nickname" id="" required></td>
+                    </tr>
+                    <tr>
+                        <td>Password :</td>
+                        <td><input type="password" name="insert_pass" id="" required></td>
+                    </tr>
+                    <tr>
+                        <td>Confirm Password :</td>
+                        <td><input type="password" name="insert_compass" id="" required></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <hr>
+                        </td>
+                    </tr>
+                </table><br>
+                <button type="submit">Submit</button><button type="reset">Reset</button>
+            </div>
         </form>
-        ______________________________________________________<br><br>
-        <tr><td colspan="2">
-            <button Type="submit">Submit</button>
-            <button type="reset">Reset</button>
-        </td></tr>
-        </center>  
-    </fieldset>     
+    </center>
 
-    </table>
-    <?php
-        include_once "db.php";
-        function add_data(){
-            $mydb = new db("root","","member");
-            $data = $mydb->query("INSERT INTO 'member'('name','user','password','type')
-            VALUES ('{$data['user']}','{$data['name']}','{$data['pass']}')");
-            $mydb->close();
-            return $data;
-        }
-    ?>
 </body>
+
 </html>
